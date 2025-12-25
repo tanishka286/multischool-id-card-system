@@ -16,11 +16,14 @@ const sessionRoutes = require('./routes/sessionRoutes');
 const classRoutes = require('./routes/classRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
+// TEMPORARY: MongoDB verification route - REMOVE AFTER VERIFICATION
+const verificationRoutes = require('./routes/verificationRoutes');
 
 // Connect to database
+const app = express();
 connectDB();
 
-const app = express();
+
 
 // Middleware
 app.use(helmet()); // Security headers
@@ -74,7 +77,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Routes
-app.use('/health', healthRoutes);
+app.use('/api/v1/health', healthRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/templates', templateRoutes);
@@ -83,6 +86,8 @@ app.use('/api/v1/sessions', sessionRoutes);
 app.use('/api/v1/classes', classRoutes);
 app.use('/api/v1/students', studentRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
+// TEMPORARY: MongoDB verification route - REMOVE AFTER VERIFICATION
+app.use('/api/v1/verify-mongo', verificationRoutes);
 
 // Handle 404 for undefined routes
 app.all('*', (req, res) => {
